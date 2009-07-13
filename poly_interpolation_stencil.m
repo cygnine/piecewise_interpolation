@@ -1,15 +1,44 @@
-function[fz] = poly_interpolation_stencil(x,y,z,stencil)
-% [FZ] = POLY_INTERPOLATION_STENCIL(X,Y,Z,STENCIL)
+function[fz] = poly_interpolation_stencil(x,y,z,stencil,varargin)
+% [FZ] = POLY_INTERPOLATION_STENCIL(X,Y,Z,STENCIL,{STENCIL_PERIODICITY=false,INTERVAL=false})
 %
 %     Performs piecewise polynomial interpolation on the grid points (X,Y) using
 %     the interpolation stencil STENCIL. The interpolant is evaluated at the
 %     points Z.
+%
+%     The optional input STENCIL_PERIODICITY determines whether or not a
+%     periodic interpolation rubric is chosen. If it's false, no periodicity is
+%     assumed. If periodicity is sought, input the value given as output from
+%     FiniteDifference/difference_stencil.m. If periodicity is given, then the
+%     second optional input interval must be a 2-vector denoted the bounding
+%     interval of periodicity.
 
 global handles;
 newton = handles.speclab.NewtonPolynomials;
 
+opt = handles.common.InputSchema({'stencil_periodicity','interval'}, ...
+         {false,false}, [], varargin{:});
+
 % Compute x values
-XInput = x(stencil);
+if stencil_periodicity ~= false
+  xmax = interval(2); xmin = interval(1);
+  % Compute x values
+  XInput = x(stencil);
+  inds = stencil_periodicity==1;
+  % For indices that wrap down to 1:
+  XInput(inds) = xmax + (XInput(inds) - xmin);
+
+  inds = stencil_periodicity==-1;
+  % For indices that wrap up to n:
+  XInput(inds) = xmin - (xmax - XInput(inds));
+
+  % For histogram finding
+  x = [x;xmax + x(1) - xmin]
+else
+  XInput = x(stencil);
+
+  % For histogram finding
+  x= [-inf; x(2:(end-1)); inf];
+end
 
 % Use stencil to compute interpolants
 if size(stencil,2)==1
@@ -20,7 +49,6 @@ end
 
 % Determine indicators for locations of nodes
 % Temporarily redefine x as the bin separators to include all real numbers
-x= [-inf; x(2:(end-1)); inf];
 [temp,bin] = histc(z,x);
 
 fz = zeros(size(z));
