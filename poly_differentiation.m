@@ -1,12 +1,13 @@
-function[fz] = poly_interpolate(x,y,z,varargin)
-% [FZ] = POLY_INTERPOLATE(X,Y,Z,{K:3,BIAS=true)
+function[fz] = poly_differentiation(x,y,z,varargin)
+% [FZ] = POLY_DIFFERENTIATION(X,Y,Z,{K:3,BIAS=TRUE)
 %
 %     Performs piecewise polynomial interpolation on the grid points (X,Y). The
 %     interpolation scheme is identical for all sub-intevals (except the
 %     endpoints). Order K (i.e. nearest K+1 points) interpolation is used. The
-%     interpolation is evaluated at the locations Z. The optional input BIAS
-%     determines which direction to bias in the case of odd K. The default is
-%     true = bias to the left. Set it to false to bias to the right.
+%     interpolation is differentiated and evaluated at the locations Z. The
+%     optional input BIAS determines which direction to bias in the case of odd
+%     K. The default is true = bias to the left. Set it to false to bias to the
+%     right.
 
 global handles;
 fd = handles.FiniteDifference;
@@ -28,4 +29,4 @@ end
 
 stencil = fd.difference_stencil(n,opt.k,'r',r*ones([n,1]));
 
-fz = pw.poly_interpolation_stencil(x,y,z,stencil);
+fz = pw.poly_differentiation_stencil(x,y,z,stencil);
