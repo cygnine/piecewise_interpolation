@@ -1,21 +1,23 @@
 function[fz] = poly_interpolation_stencil(x,y,z,stencil,varargin)
-% [FZ] = POLY_INTERPOLATION_STENCIL(X,Y,Z,STENCIL,{STENCIL_PERIODICITY=false,INTERVAL=false})
+% poly_interpolation_stencil -- piecewise polynomial interpolation of any order
 %
-%     Performs piecewise polynomial interpolation on the grid points (X,Y) using
-%     the interpolation stencil STENCIL. The interpolant is evaluated at the
-%     points Z.
+% [fz] = poly_interpolation_stencil(x,y,z,stencil,{stencil_periodicity=false,interval=false})
 %
-%     The optional input STENCIL_PERIODICITY determines whether or not a
+%     Performs piecewise polynomial interpolation on the grid points (x,y) using
+%     the interpolation stencil stencil. The interpolant is evaluated at the
+%     points z.
+%
+%     The optional input stencil_periodicity determines whether or not a
 %     periodic interpolation rubric is chosen. If it's false, no periodicity is
 %     assumed. If periodicity is sought, input the value given as output from
-%     FiniteDifference/difference_stencil.m. If periodicity is given, then the
+%     finite_difference/difference_stencil.m. If periodicity is given, then the
 %     second optional input interval must be a 2-vector denoted the bounding
 %     interval of periodicity.
 
 global handles;
-newton = handles.speclab.NewtonPolynomials;
+newton = handles.speclab.newton_polynomials;
 
-opt = handles.common.InputSchema({'stencil_periodicity','interval'}, ...
+opt = handles.common.input_schema({'stencil_periodicity','interval'}, ...
          {false,false}, [], varargin{:});
 
 % Compute x values

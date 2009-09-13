@@ -1,23 +1,25 @@
 function[fz] = poly_differentiation(x,y,z,varargin)
-% [FZ] = POLY_DIFFERENTIATION(X,Y,Z,{K:3,BIAS=TRUE,INTERVAL=faluse})
+% poly_differentiation -- piecewise polynomial differentiation of any order
 %
-%     Performs piecewise polynomial interpolation on the grid points (X,Y). The
-%     interpolation scheme is identical for all sub-intevals (except the
-%     endpoints). Order K (i.e. nearest K+1 points) interpolation is used. The
-%     interpolation is differentiated and evaluated at the locations Z. The
-%     optional input BIAS determines which direction to bias in the case of odd
-%     K. The default is true = bias to the left. Set it to false to bias to the
-%     right.
+% [fz] = poly_differentiation(x,y,z,{k:3,bias=true,interval=false})
 %
-%     The optional input INTERVAL denotes whether the interpolation stencil is
+%     Performs piecewise polynomial interpolation+differentiation on the grid
+%     points (x,y). The interpolation scheme is identical for all sub-intevals
+%     (except the endpoints). Order k (i.e. nearest k+1 points) interpolation is
+%     used. The interpolation is differentiated and evaluated at the locations
+%     z. The optional input bias determines which direction to bias in the case
+%     of odd k. The default is true = bias to the left. Set it to false to bias
+%     to the right.
+%
+%     The optional input interval denotes whether the interpolation stencil is
 %     periodic. If a 2-vector is given, periodicity is assumed over that
 %     bounding interval.
 
 global handles;
-fd = handles.FiniteDifference;
-pw = handles.PiecewiseInterpolation;
+fd = handles.finite_difference;
+pw = handles.piecewise_interpolation;
 
-opt = handles.common.InputSchema({'k','bias','interval'},{3,true,false},[],varargin{:});
+opt = handles.common.input_schema({'k','bias','interval'},{3,true,false},[],varargin{:});
 
 % Force column vector
 x = x(:);
