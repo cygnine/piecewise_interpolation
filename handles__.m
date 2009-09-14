@@ -12,4 +12,5 @@ name = 'piecewise_interpolation';
 % This is by default
 hs.base = fileparts(mfilename('fullpath'));
 
-pathadditions{end+1} = cell(0);
+pathadditions = cell(0);
+%pathadditions{end+1} = fullfile(hs.base,'classes');

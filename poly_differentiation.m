@@ -33,7 +33,7 @@ else
   r = 0;
 end
 
-if interval ~= false
+if opt.interval ~= false
   periodic=true;
 else
   periodic=false;
@@ -41,5 +41,5 @@ end
 
 [stencil,stencil_periodicity] = fd.difference_stencil(n,opt.k,'r',r*ones([n,1]),'periodic',periodic);
 
-fz = pw.poly_differentiation_stencil(x,y,z,stencil...
-        'stencil_periodicity', stencil_periodicity, 'interval', interval);
+fz = pw.poly_differentiation_stencil(x,y,z,stencil,...
+        'stencil_periodicity', stencil_periodicity, 'interval', opt.interval);

@@ -1,4 +1,4 @@
-function[fz] = poly_differentation_stencil(x,y,z,stencil)
+function[fz] = poly_differentation_stencil(x,y,z,stencil,varargin)
 % poly_differentiation_stencil -- piecewise polynomial differentiation of any order
 %
 % [fz] = poly_differentiation_stencil(x,y,z,stencil,{stencil_periodicity=false,interval=false})
@@ -21,15 +21,15 @@ opt = handles.common.input_schema({'stencil_periodicity','interval'}, ...
          {false,false}, [], varargin{:});
 
 % Compute x values
-if stencil_periodicity ~= false
-  xmax = interval(2); xmin = interval(1);
+if opt.stencil_periodicity ~= false
+  xmax = opt.interval(2); xmin = opt.interval(1);
   % Compute x values
   XInput = x(stencil);
-  inds = stencil_periodicity==1;
+  inds = opt.stencil_periodicity==1;
   % For indices that wrap down to 1:
   XInput(inds) = xmax + (XInput(inds) - xmin);
 
-  inds = stencil_periodicity==-1;
+  inds = opt.stencil_periodicity==-1;
   % For indices that wrap up to n:
   XInput(inds) = xmin - (xmax - XInput(inds));
 
@@ -60,6 +60,6 @@ fz = zeros(size(z));
 for q = 1:size(stencil,1)
   flags = bin==q;
   if any(flags)
-    fz(flags) = newton.newton_derivative_evaluate(XInput(q,:),dd(:,q),z(flags));
+    fz(flags) = newton.newton_derivative_evaluate(XInput(q,:).',dd(:,q),z(flags));
   end
 end
