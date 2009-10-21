@@ -11,6 +11,7 @@ name = 'piecewise_interpolation';
 
 % This is by default
 hs.base = fileparts(mfilename('fullpath'));
+hs.grid_tools.base = fullfile(hs.base, 'grid_tools');
 
 pathadditions = cell(0);
-%pathadditions{end+1} = fullfile(hs.base,'classes');
+pathadditions{end+1} = fullfile(hs.base,'classes');
