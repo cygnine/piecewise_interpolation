@@ -19,8 +19,6 @@ K = length(cell_vertices(:)) - 1;
 global_nodes = zeros([N K]);
 
 [cell_scale, cell_shift] = scaleshift(cell_vertices);
-%cell_scale = diff(cell_vertices(:))/2;
-%cell_shift = mean([cell_vertices(2:end), cell_vertices(1:(end-1))],2);
 
 global_nodes = repmat(local_nodes, [1,K])*spdiags(cell_scale,0,K,K);
 global_nodes = global_nodes + repmat(cell_shift', [N, 1]);

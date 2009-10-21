@@ -93,5 +93,10 @@ methods
   y = evaluate(self,x);
   varargout = plot(self);
   y = diff(self);
+  y = int(self);
+  z = plus(self,other);
+  z = mtimes(self,other);
+  tf = conforming(self,other);
+  m = monomial_coefficients(self);
 end
 end
