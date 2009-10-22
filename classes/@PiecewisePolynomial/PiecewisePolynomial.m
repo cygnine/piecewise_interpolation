@@ -98,5 +98,6 @@ methods
   z = mtimes(self,other);
   tf = conforming(self,other);
   m = monomial_coefficients(self);
+  h = hilbert_transform(self,x);
 end
 end

@@ -18,9 +18,10 @@ compute_scaleshift = handles.piecewise_interpolation.grid_tools.compute_scaleshi
 
 [recurrence_a,recurrence_b] = jac.coefficients.recurrence(N+1,opt);
 
-[bin_sums, bin_id] = histc(x, cell_boundaries);
 x = x(:);
 y = y(:);
+[bin_sums, bin_id] = histc(x, cell_boundaries);
+
 
 assert(length(x)==length(y), 'Nodal data x and y must have the same length');
 assert(max(bin_sums)<=N,  'Too many data points lie inside a cell: cannot uniquely interpolate');
