@@ -8,8 +8,8 @@ function[y] = evaluate(self,x)
 
 global handles;
 jac = handles.speclab.orthopoly1d.jacobi;
-eval_jac = handles.speclab.orthopoly1d.eval_polynomial;
-sss = handles.speclab.common.standard_scaleshift_1d.handle;
+eval_jac = handles.speclab.orthopoly1d.eval_polynomial_standard.handle;
+%sss = handles.speclab.common.standard_scaleshift_1d.handle;
 
 xsize = size(x);
 x = x(:);
@@ -28,23 +28,11 @@ switch self.basis_representation
 case 'jacobi'
   [recurrence_a,recurrence_b] = jac.coefficients.recurrence(self.N+1,self.opoly_opt);
 
+  r = (x - self.cell_shifts(bin))./self.jacobians(bin);
+  polys = eval_jac(r, recurrence_a, recurrence_b,0:(self.N-1));
   for q = 1:self.K;
     flags = (bin==q);
-    r = sss(x(flags),'scale',self.jacobians(q), 'shift', self.cell_shifts(q));
-
-    %% Update indices so we know positions in local_coordinates
-    %cumulative_bin_sum = cumulative_bin_sum + bin_sums(q);
-    %cell_end_indices(q) = cumulative_bin_sum;
-%
-%    % Calculate local coordinates
-%    if q==1
-%      local_coordinates(1:cumulative_bin_sum) = r;
-%    else
-%      local_coordinates(cell_end_indices(q-1)+1:cumulative_bin_sum) = r;
-%    end
-
-    polys = eval_jac(r, recurrence_a, recurrence_b,0:(self.N-1));
-    y(flags) = polys*self.modal_coefficients(:,q);
+    y(flags) = polys(flags,:)*self.modal_coefficients(:,q);
   end
 end
 

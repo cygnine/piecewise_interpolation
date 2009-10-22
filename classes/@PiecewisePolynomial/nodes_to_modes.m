@@ -10,7 +10,7 @@ function[self] = nodes_to_modes(self,x,y)
 
 global handles;
 jac = handles.speclab.orthopoly1d.jacobi;
-eval_jac = handles.speclab.orthopoly1d.eval_polynomial;
+eval_jac = handles.speclab.orthopoly1d.eval_polynomial_standard.handle;
 sss = handles.speclab.standard_scaleshift1d.handle;
 
 [recurrence_a,recurrence_b] = jac.coefficients.recurrence(self.N+1,self.opoly_opt);
@@ -25,13 +25,9 @@ assert(length(x)==length(y), 'Nodal data x and y must have the same length');
 % erase previous data
 self.modal_coefficients = zeros([self.N, self.K]);
 
+r = (x - self.cell_shifts(bin_id))./self.jacobians(bin_id);
+polys = eval_jac(r, recurrence_a, recurrence_b, 0:N);
 for q = 1:self.K;
   flags = (bin_id==q);
-  r = sss(x(flags), 'scale', self.jacobians(q), 'shift', self.cell_shift(q));
-
-  Nr = length(r);
-  polys = eval_jac(r, recurrence_a, recurrence_b, 0:(Nr-1));
-  self.modal_coefficients(1:Nr,q) = inv(polys)*y(flags);
+  self.modal_coefficients(1:bin_sums(q),q) = inv(polys(flags,1:bin_sums(q)))*y(flags);
 end
-
-self = rmfield(self,{'x','y'});

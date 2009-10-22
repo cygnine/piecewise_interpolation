@@ -12,8 +12,7 @@ function[modes] = nodes_to_jacobi_modes(cell_boundaries,N,x,y,varargin)
 global handles;
 opt = handles.common.input_schema({'alpha', 'beta'}, {0,0}, [], varargin{:});
 jac = handles.speclab.orthopoly1d.jacobi;
-eval_jac = handles.speclab.orthopoly1d.eval_polynomial;
-sss = handles.speclab.common.standard_scaleshift_1d.handle;
+eval_jac = handles.speclab.orthopoly1d.eval_polynomial_standard;
 compute_scaleshift = handles.piecewise_interpolation.grid_tools.compute_scaleshift.handle;
 
 [recurrence_a,recurrence_b] = jac.coefficients.recurrence(N+1,opt);
@@ -21,7 +20,6 @@ compute_scaleshift = handles.piecewise_interpolation.grid_tools.compute_scaleshi
 x = x(:);
 y = y(:);
 [bin_sums, bin_id] = histc(x, cell_boundaries);
-
 
 assert(length(x)==length(y), 'Nodal data x and y must have the same length');
 assert(max(bin_sums)<=N,  'Too many data points lie inside a cell: cannot uniquely interpolate');
@@ -32,13 +30,13 @@ K = length(cell_boundaries(:))-1;
 % erase previous data
 modes = zeros([N, K]);
 
+r = (x - cell_shift(bin_id))./jacobians(bin_id);
+polys = eval_jac(r, recurrence_a, recurrence_b, 0:(N-1));
 for q = 1:K;
   flags = (bin_id==q);
-  r = sss(x(flags), 'scale', jacobians(q), 'shift', cell_shift(q));
 
-  Nr = length(r);
+  Nr = bin_sums(q);
   if Nr>0
-    polys = eval_jac(r, recurrence_a, recurrence_b, 0:(Nr-1));
-    modes(1:Nr,q) = inv(polys)*y(flags);
+    modes(1:Nr,q) = inv(polys(flags,1:Nr))*y(flags);
   end
 end

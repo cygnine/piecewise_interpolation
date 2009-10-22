@@ -10,14 +10,14 @@ global handles;
 mode_diff = handles.speclab.orthopoly1d.jacobi.operators.stiffness_operator;
 
 temp = self.modal_coefficients;
-for q = 1:self.K;
-  switch self.basis_representation
-  case 'jacobi'
-    temp(:,q) = mode_diff(temp(:,q),self.opoly_opt);
-    temp(:,q) = temp(:,q)/self.jacobians(q);
-  otherwise
-    error('Not yet implemented')
-  end
+switch self.basis_representation
+case 'jacobi'
+  S = handles.speclab.orthopoly1d.jacobi.operators.stiffness_matrix(self.N, self.opoly_opt);
+  %temp(:,q) = mode_diff(temp(:,q),self.opoly_opt);
+  temp = S*temp*spdiags(1./self.jacobians,0,self.K,self.K);;
+  %temp(:,q) = temp(:,q)/self.jacobians(q);
+otherwise
+  error('Not yet implemented')
 end
 
 y = PiecewisePolynomial('N', self.N-1, 'K', self.K, 'cell_boundaries',...

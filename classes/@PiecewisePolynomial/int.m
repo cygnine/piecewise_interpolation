@@ -7,17 +7,16 @@ function[y] = int(self)
 %     Uses a quadrature rule exact for the order of the polynomial on each cell
 %     to compute the exact integral.
 
-global handles;
-jac = handles.speclab.orthopoly1d.jacobi;
-pwtools = handles.piecewise_interpolation.grid_tools;
-
 switch self.basis_representation
 case 'jacobi'
-  [r,w] = jac.quad.gauss_quadrature(self.N, self.opoly_opt);
+  alpha = self.opoly_opt.alpha;
+  beta = self.opoly_opt.beta;
 
-  x = pwtools.replicate_local_nodes(r,self.cell_boundaries);
-  z = self.evaluate(x);
-  y = (w'*z)*self.jacobians;
+  % Value of P_0^(alpha,beta), to normalized the modal coefficients
+  p0 = 1/sqrt(2^(alpha+beta+1)*gamma(alpha+1)*gamma(beta+1)/gamma(alpha+beta+2));
+
+  % Just need to add up 0th order modal coefficients
+  y = p0*self.modal_coefficients(1,:)*2*self.jacobians;
 otherwise
   error('Not yet implemented')
 end
