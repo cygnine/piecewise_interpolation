@@ -91,7 +91,7 @@ methods
 
   varargout = subsref(self,varargin);
   y = evaluate(self,x);
-  varargout = plot(self);
+  varargout = plot(self,varargin);
   y = diff(self);
   y = int(self);
   z = plus(self,other);
