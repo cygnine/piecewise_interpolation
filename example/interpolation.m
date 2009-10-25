@@ -10,8 +10,8 @@
 
 clear;
 close all;
-global handles;
-interpolate = handles.piecewise_interpolation.poly_interpolation;
+global packages;
+interpolate = packages.piecewise_interpolation.poly_interpolation;
 
 % Let's do a pretty easy function:
 f = @(x) atan(2000*x);

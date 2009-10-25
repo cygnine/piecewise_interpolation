@@ -9,11 +9,11 @@ function[modes] = nodes_to_jacobi_modes(cell_boundaries,N,x,y,varargin)
 %     polynomial). The data is specified by the tuple (x,y). The modal
 %     coefficients correspond to L2-normalized Jacobi polynomials.
 
-global handles;
-opt = handles.common.input_schema({'alpha', 'beta'}, {0,0}, [], varargin{:});
-jac = handles.speclab.orthopoly1d.jacobi;
-eval_jac = handles.speclab.orthopoly1d.eval_polynomial_standard;
-compute_scaleshift = handles.piecewise_interpolation.grid_tools.compute_scaleshift.handle;
+global packages;
+opt = packages.labtools.input_schema({'alpha', 'beta'}, {0,0}, [], varargin{:});
+jac = packages.speclab.orthopoly1d.jacobi;
+eval_jac = packages.speclab.orthopoly1d.eval_polynomial_standard;
+compute_scaleshift = packages.piecewise_interpolation.grid_tools.compute_scaleshift.handle;
 
 [recurrence_a,recurrence_b] = jac.coefficients.recurrence(N+1,opt);
 

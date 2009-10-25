@@ -7,9 +7,9 @@ function[m] = monomial_coefficients(self)
 %     Uses quadrature to compute the (global) monomial coefficients on each
 %     cell.
 
-global handles;
-jac = handles.speclab.orthopoly1d.jacobi;
-pwtools = handles.piecewise_interpolation.grid_tools;
+global packages;
+jac = packages.speclab.orthopoly1d.jacobi;
+pwtools = packages.piecewise_interpolation.grid_tools;
 
 [r,w] = jac.quad.gauss_quadrature(self.N,self.opoly_opt);
 polys = jac.eval.eval_jacobi_poly(r,0:(self.N-1), self.opoly_opt);

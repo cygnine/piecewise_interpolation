@@ -7,8 +7,8 @@ function[z] = plus(self,other)
 %     Sums together two piecewise polynomials, or a piecewise polynomial and a
 %     scalar double.
 
-global handles;
-jac = handles.speclab.orthopoly1d.jacobi;
+global packages;
+jac = packages.speclab.orthopoly1d.jacobi;
 
 switch self.basis_representation
 case 'jacobi'

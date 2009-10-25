@@ -10,8 +10,8 @@
 
 clear;
 close all;
-global handles;
-differentiate = handles.piecewise_interpolation.poly_differentiation;
+global packages;
+differentiate = packages.piecewise_interpolation.poly_differentiation;
 
 % Let's do a pretty easy function:
 f = @(x) atan(200*x);

@@ -8,10 +8,10 @@ function[self] = nodes_to_modes(self,x,y)
 %     creates (or amends) the property modal_coefficients according to the data
 %     tuple (x,y).
 
-global handles;
-jac = handles.speclab.orthopoly1d.jacobi;
-eval_jac = handles.speclab.orthopoly1d.eval_polynomial_standard.handle;
-sss = handles.speclab.standard_scaleshift1d.handle;
+global packages;
+jac = packages.speclab.orthopoly1d.jacobi;
+eval_jac = packages.speclab.orthopoly1d.eval_polynomial_standard.handle;
+sss = packages.speclab.standard_scaleshift1d.handle;
 
 [recurrence_a,recurrence_b] = jac.coefficients.recurrence(self.N+1,self.opoly_opt);
 

@@ -7,9 +7,9 @@ function[z] = mtimes(self,other)
 %     scalar double. The output z inherits the representation from the first
 %     input.
 
-global handles;
-jac = handles.speclab.orthopoly1d.jacobi;
-pwtools = handles.piecewise_interpolation.grid_tools;
+global packages;
+jac = packages.speclab.orthopoly1d.jacobi;
+pwtools = packages.piecewise_interpolation.grid_tools;
 
 switch self.basis_representation
 case 'jacobi'

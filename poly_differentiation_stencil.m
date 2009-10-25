@@ -14,10 +14,10 @@ function[fz] = poly_differentation_stencil(x,y,z,stencil,varargin)
 %     second optional input interval must be a 2-vector denoted the bounding
 %     interval of periodicity.
 
-global handles;
-newton = handles.speclab.newton_polynomials;
+global packages;
+newton = packages.speclab.newton_polynomials;
 
-opt = handles.common.input_schema({'stencil_periodicity','interval'}, ...
+opt = packages.labtools.input_schema({'stencil_periodicity','interval'}, ...
          {false,false}, [], varargin{:});
 
 % Compute x values

@@ -14,11 +14,11 @@ function[fz] = poly_interpolation(x,y,z,varargin)
 %     periodic. If a 2-vector is given, periodicity is assumed over that
 %     bounding interval.
 
-global handles;
-fd = handles.finite_difference;
-pw = handles.piecewise_interpolation;
+global packages;
+fd = packages.finite_difference;
+pw = packages.piecewise_interpolation;
 
-opt = handles.common.input_schema({'k','bias','interval'},{3,true,false},[],varargin{:});
+opt = packages.labtools.input_schema({'k','bias','interval'},{3,true,false},[],varargin{:});
 
 % Force column vector
 x = x(:);

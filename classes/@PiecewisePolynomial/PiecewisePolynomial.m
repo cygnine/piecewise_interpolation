@@ -45,17 +45,17 @@ methods
   %     different order polynomials on elements, just define N as the maximal
   %     order, and upsample the lower-order elements accordingly.
 
-    global handles; 
+    global packages; 
     inputs = {'K','N','cell_boundaries', 'standard_interval','x', 'y', ...
               'basis_representation', 'jacobi_alpha', 'jacobi_beta', ...
               'modal_coefficients'};
     defaults = {1,3,[-1,1],[-1,1],[],[],'jacobi',0,0, []};
-    jac = handles.speclab.orthopoly1d.jacobi;
-    repgrid = handles.piecewise_interpolation.grid_tools.replicate_local_nodes.handle;
-    find_modes = handles.piecewise_interpolation.grid_tools.nodes_to_jacobi_modes;
-    scaleshift = handles.piecewise_interpolation.grid_tools.compute_scaleshift;
+    jac = packages.speclab.orthopoly1d.jacobi;
+    repgrid = packages.piecewise_interpolation.grid_tools.replicate_local_nodes.handle;
+    find_modes = packages.piecewise_interpolation.grid_tools.nodes_to_jacobi_modes;
+    scaleshift = packages.piecewise_interpolation.grid_tools.compute_scaleshift;
 
-    opt = handles.common.input_schema(inputs, defaults, [], varargin{:});
+    opt = packages.labtools.input_schema(inputs, defaults, [], varargin{:});
     [self.K, self.N, self.cell_boundaries, self.standard_interval, ...
       self.basis_representation] = deal(opt.K, opt.N, opt.cell_boundaries,...
       opt.standard_interval, opt.basis_representation);

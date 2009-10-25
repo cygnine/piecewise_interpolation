@@ -7,9 +7,9 @@ function[varargout] = plot(self,varargin)
 %     Plots the piecewise polynomial over its domain. The optional input
 %     plotstyle is a common Matlab plotting string.
 
-global handles;
-pwtools = handles.piecewise_interpolation.grid_tools;
-gq = handles.speclab.orthopoly1d.jacobi.quad.gauss_quadrature;
+global packages;
+pwtools = packages.piecewise_interpolation.grid_tools;
+gq = packages.speclab.orthopoly1d.jacobi.quad.gauss_quadrature;
 
 [r,w] = gq(self.N, self.opoly_opt);
 

@@ -6,10 +6,10 @@ function[y] = evaluate(self,x)
 %       location x is outside the global_interval, the polynomial is
 %       extrapolated.
 
-global handles;
-jac = handles.speclab.orthopoly1d.jacobi;
-eval_jac = handles.speclab.orthopoly1d.eval_polynomial_standard.handle;
-%sss = handles.speclab.common.standard_scaleshift_1d.handle;
+global packages;
+jac = packages.speclab.orthopoly1d.jacobi;
+eval_jac = packages.speclab.orthopoly1d.eval_polynomial_standard.handle;
+%sss = packages.speclab.common.standard_scaleshift_1d.handle;
 
 xsize = size(x);
 x = x(:);

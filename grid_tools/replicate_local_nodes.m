@@ -8,8 +8,8 @@ function[global_nodes] = replicate_local_nodes(local_nodes, cell_vertices)
 %     matrix where column k corresponds to the vector of nodes local_nodes
 %     mapped from [-1,1] -----> [cell_vertices(k), cell_vertices(k+1)].
 
-global handles;
-scaleshift = handles.piecewise_interpolation.grid_tools.compute_scaleshift.handle;
+global packages;
+scaleshift = packages.piecewise_interpolation.grid_tools.compute_scaleshift.handle;
 
 local_nodes = local_nodes(:);
 N = length(local_nodes);
