@@ -3,9 +3,9 @@ function[h] = hilbert_transform(self,x)
 %
 % h = hilbert_transform(self, x)
 %
-%     Using high-order quadrature, this function evaluates the Hilbert transform
-%     of the PiecewisePolynomial object at the locations x. No input checking is
-%     performed.
+%     Using high-order quadrature, this function evaluate the Hilbert transform
+%     of the PiecewisePolynomial object with the kernel g using a high-order
+%     quadrature. 
 
 global packages;
 

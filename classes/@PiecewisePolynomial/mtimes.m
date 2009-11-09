@@ -11,6 +11,12 @@ global packages;
 jac = packages.speclab.orthopoly1d.jacobi;
 pwtools = packages.piecewise_interpolation.grid_tools;
 
+if isa(self,'double')
+  z = other;
+  z.modal_coefficients = self*(z.modal_coefficients);
+  return
+end
+
 switch self.basis_representation
 case 'jacobi'
   if isa(other,'PiecewisePolynomial')
@@ -35,7 +41,7 @@ case 'jacobi'
 
     z = PiecewisePolynomial(temp);
   elseif isa(other, 'double')
-    self.modal_coefficients = self.modal_coefficients*other;
+    self.modal_coefficients = (self.modal_coefficients)*other;
     z = self;
   else
     error('Cannot add objects')
