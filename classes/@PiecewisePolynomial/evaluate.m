@@ -6,9 +6,11 @@ function[y] = evaluate(self,x)
 %       location x is outside the global_interval, the polynomial is
 %       extrapolated.
 
-global packages;
-jac = packages.speclab.orthopoly1d.jacobi;
-eval_jac = packages.speclab.orthopoly1d.eval_polynomial_standard.handle;
+persistent recurrence eval_jac
+if isempty(recurrence)
+  from speclab.orthopoly1d.jacobi.coefficients import recurrence
+  from speclab.orthopoly1d import eval_polynomial_standard as eval_jac
+end
 %sss = packages.speclab.common.standard_scaleshift_1d.handle;
 
 xsize = size(x);
@@ -26,7 +28,7 @@ flags = false([M 1]);
 
 switch self.basis_representation
 case 'jacobi'
-  [recurrence_a,recurrence_b] = jac.coefficients.recurrence(self.N+1,self.opoly_opt);
+  [recurrence_a,recurrence_b] = recurrence(self.N+1,self.opoly_opt);
 
   r = (x - self.cell_shifts(bin))./self.jacobians(bin);
   polys = eval_jac(r, recurrence_a, recurrence_b,0:(self.N-1));
