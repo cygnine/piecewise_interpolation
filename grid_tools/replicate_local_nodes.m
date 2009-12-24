@@ -8,9 +8,10 @@ function[global_nodes] = replicate_local_nodes(local_nodes, cell_vertices)
 %     matrix where column k corresponds to the vector of nodes local_nodes
 %     mapped from [-1,1] -----> [cell_vertices(k), cell_vertices(k+1)].
 
-persistent scaleshift
+persistent scaleshift spdiag
 if isempty(scaleshift)
   from piecewise_interpolation.grid_tools import compute_scaleshift as scaleshift
+  from labtools import spdiag
 end
 
 local_nodes = local_nodes(:);
@@ -22,5 +23,10 @@ global_nodes = zeros([N K]);
 
 [cell_scale, cell_shift] = scaleshift(cell_vertices);
 
-global_nodes = repmat(local_nodes, [1,K])*spdiags(cell_scale,0,K,K);
-global_nodes = global_nodes + repmat(cell_shift', [N, 1]);
+%global_nodes = repmat(local_nodes, [1,K])*spdiags(cell_scale,0,K,K);
+%global_nodes = global_nodes + repmat(cell_shift', [N, 1]);
+global_nodes = local_nodes*ones([1, K]);
+%inds = (1:K:(K^2)) + (0:(K-1));
+%temp = spalloc(K,K,K); 
+%temp(inds) = cell_scale;
+global_nodes = global_nodes*spdiag(cell_scale) + ones([N 1])*cell_shift.';

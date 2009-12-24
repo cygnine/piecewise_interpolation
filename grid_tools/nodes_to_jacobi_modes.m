@@ -17,13 +17,17 @@ compute_scaleshift = packages.piecewise_interpolation.grid_tools.compute_scalesh
 
 [recurrence_a,recurrence_b] = jac.coefficients.recurrence(N+1,opt);
 
+K = length(cell_boundaries(:))-1;
+
 x = x(:);
 y = y(:);
 [bin_sums, bin_id] = histc(x, cell_boundaries);
+bin_sums = [bin_sums(1:end-2); bin_sums(end-1)+bin_sums(end)];
+flags = (bin_id==(K+1));
+bin_id(flags) = K;
 
 assert(length(x)==length(y), 'Nodal data x and y must have the same length');
-assert(max(bin_sums)<=N,  'Too many data points lie inside a cell: cannot uniquely interpolate');
-K = length(cell_boundaries(:))-1;
+%assert(max(bin_sums)<=N,  'Too many data points lie inside a cell: cannot uniquely interpolate');
 
 [jacobians, cell_shift] = compute_scaleshift(cell_boundaries);
 
@@ -37,6 +41,10 @@ for q = 1:K;
 
   Nr = bin_sums(q);
   if Nr>0
-    modes(1:Nr,q) = inv(polys(flags,1:Nr))*y(flags);
+    if Nr <=N 
+      modes(1:Nr,q) = inv(polys(flags,1:Nr))*y(flags);
+    else
+      modes(1:N,q) = polys(flags,1:N)\y(flags);
+    end
   end
 end

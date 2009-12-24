@@ -14,6 +14,7 @@ scales = zeros([K 1]);
 shifts = zeros([K 1]);
 
 scales = diff(cell_boundaries)/2;
-shifts = mean([cell_boundaries(1:K), cell_boundaries(2:end)],2);
+%shifts = mean([cell_boundaries(1:K), cell_boundaries(2:end)],2);
+shifts = (cell_boundaries(1:K) + cell_boundaries(2:end))/2;
 
 assert(all(scales)>=0, 'The input cell_boundaries must be a monotonically increasing vector');

@@ -59,11 +59,6 @@ methods
               'modal_coefficients'};
     defaults = {1,3,[-1,1],[-1,1],[],[],'jacobi',0,0, []};
 
-    %jac = packages.speclab.orthopoly1d.jacobi;
-    %repgrid = packages.piecewise_interpolation.grid_tools.replicate_local_nodes.handle;
-    %find_modes = packages.piecewise_interpolation.grid_tools.nodes_to_jacobi_modes;
-    %scaleshift = packages.piecewise_interpolation.grid_tools.compute_scaleshift;
-
     opt = input_schema(inputs, defaults, [], varargin{:});
     [self.K, self.N, self.cell_boundaries, self.standard_interval, ...
       self.basis_representation] = deal(opt.K, opt.N, opt.cell_boundaries,...
@@ -88,6 +83,8 @@ methods
       elseif ~isempty(opt.x) & ~isempty(opt.y)
         self.modal_coefficients = find_modes(self.cell_boundaries, self.N, ...
            opt.x, opt.y, self.opoly_opt);
+      else
+        fprintf('Initialized zero-valued PiecewisePolynomial\n');
       end
     case 'newton'
       error('This basis type is not yet supported')
